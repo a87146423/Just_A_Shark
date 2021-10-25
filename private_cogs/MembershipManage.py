@@ -27,14 +27,15 @@ class MembershipManage(commands.Cog):
 
         try:
             gc = pygsheets.authorize(custom_credentials=my_credentials)
-            sh = gc.open_by_url(url)
-            ws = sh.worksheet_by_title('工作表2')
-            print(ws)
         except HttpError as err:
             if err.resp.status in [403, 500, 503]:
                 time.sleep(5)
-        else:
-            raise
+            else:
+                raise
+
+        sh = gc.open_by_url(url)
+        ws = sh.worksheet_by_title('工作表2')
+        print(ws)
 
         val = ws.get_all_records(head=1)
 
