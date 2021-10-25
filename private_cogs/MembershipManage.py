@@ -2,9 +2,11 @@ import os
 import json
 import pygsheets
 import pytz
+import time
 
 from datetime import datetime
 from disnake.ext import commands, tasks
+from googleapiclient.errors import HttpError
 from google.oauth2 import service_account
 from cores.Utils import time_diff
 
@@ -23,10 +25,16 @@ class MembershipManage(commands.Cog):
         SCOPES = ('https://www.googleapis.com/auth/spreadsheets', 'https://www.googleapis.com/auth/drive')
         my_credentials = service_account.Credentials.from_service_account_info(service_account_info, scopes=SCOPES)
 
-        gc = pygsheets.authorize(custom_credentials=my_credentials)
-        sh = gc.open_by_url(url)
-        ws = sh.worksheet_by_title('工作表2')
-        print(ws)
+        try:
+            gc = pygsheets.authorize(custom_credentials=my_credentials)
+            sh = gc.open_by_url(url)
+            ws = sh.worksheet_by_title('工作表2')
+            print(ws)
+        except HttpError as err:
+            if err.resp.status in [403, 500, 503]:
+                time.sleep(5)
+        else:
+            raise
 
         val = ws.get_all_records(head=1)
 
