@@ -49,7 +49,7 @@ class MembershipManage(commands.Cog):
             if item['Discord UID'] == '':
                 continue
 
-            edays = 0 if item['到期多久'] == '' else edays = int(item['到期多久'])
+            edays = 0 if item['到期多久'] == '' else int(item['到期多久'])
 
             if edays == 0 and item['是否已給予身分組'] != 'Y':
                 member = guild.get_member(item['Discord UID'])
