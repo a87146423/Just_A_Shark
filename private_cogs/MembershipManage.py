@@ -53,10 +53,10 @@ class MembershipManage(commands.Cog):
                 member = guild.get_member(item['Discord UID'])
                 await member.add_roles(role)
                 await member.send(
-                    '''[CN] 您的會員證明已被驗證，現在可以使用以下會限頻道了！'''
-                    '''[EN] Your proof have been verified and you can now access to the following membership channel.'''
-                    '''------------------------------------------------------'''
-                    '''<#803473713369710653>'''
+                    '''[CN] 您的會員證明已被驗證，現在可以使用以下會限頻道了！\n'''
+                    '''[EN] Your proof have been verified and you can now access to the following membership channel.\n'''
+                    '''------------------------------------------------------\n'''
+                    '''<#803473713369710653>\n'''
                     '''<#851664375319494676>'''
                     )
                 ws.update_value(f'K{index + 2}', 'Y')
