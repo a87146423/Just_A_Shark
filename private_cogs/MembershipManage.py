@@ -50,6 +50,7 @@ class MembershipManage(commands.Cog):
                 continue
 
             edays = 0 if item['到期多久'] == '' else int(item['到期多久'])
+            print(index, item['Discord UID'], edays, item['是否已給予身分組'])
 
             if edays == 0 and item['是否已給予身分組'] != 'Y':
                 member = guild.get_member(item['Discord UID'])
