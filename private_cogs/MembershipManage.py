@@ -77,6 +77,8 @@ class MembershipManage(commands.Cog):
             channel = self.bot.get_channel(847459494253690930)
             notif_str = '\n'.join(member_notif)
             await channel.send(f'以下蝦蝦們請於 <#846613455351185429> 重新提交會員證明\n{notif_str}')
+        
+        del sh, ws, val
 
     @tasks.loop(minutes=5.0)
     async def taskloop(self):
