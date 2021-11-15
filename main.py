@@ -12,7 +12,7 @@ bot = commands.Bot(command_prefix=get_prifex, case_insensitive=True, intents=int
 
 @bot.event
 async def on_ready():
-    await bot.change_presence(activity=disnake.Activity(type=disnake.ActivityType.playing, name="蝦蝦✅ a/help"))
+    await bot.change_presence(activity=disnake.Activity(type=disnake.ActivityType.playing, name="蝦蝦✅"))
     print(f"Logged in as: {bot.user.name} - {bot.user.id} / Version: {disnake.__version__}")
 
 
