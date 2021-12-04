@@ -55,16 +55,16 @@ class MembershipManage(commands.Cog):
                     await member.add_roles(role)
                 except:
                     print(f"Unable to add role of UID: {item['Discord UID']}")
-                    pass
-                await member.send(
-                    '''[CN] 您的會員證明已被驗證，現在可以使用以下會限頻道了！\n'''
-                    '''[EN] Your proof have been verified and you can now access to the following membership channel.\n'''
-                    '''------------------------------------------------------\n'''
-                    '''<#803473713369710653>\n'''
-                    '''<#851664375319494676>'''
-                    )
-                ws.update_value(f'K{index + 2}', 'Y')
-                print(item['暱稱'], item['Discord UID'], item['下次帳單日期'], item['是否已給予身分組'], '新增')
+                else:
+                    await member.send(
+                        '''[CN] 您的會員證明已被驗證，現在可以使用以下會限頻道了！\n'''
+                        '''[EN] Your proof have been verified and you can now access to the following membership channel.\n'''
+                        '''------------------------------------------------------\n'''
+                        '''<#803473713369710653>\n'''
+                        '''<#851664375319494676>'''
+                        )
+                    ws.update_value(f'K{index + 2}', 'Y')
+                    print(item['暱稱'], item['Discord UID'], item['下次帳單日期'], item['是否已給予身分組'], '新增')
 
             elif item['到期多久'] != '' and (int(item['到期多久']) > 3 and item['是否已給予身分組'] == 'Y'):
                 member = guild.get_member(item['Discord UID'])
@@ -72,9 +72,9 @@ class MembershipManage(commands.Cog):
                     await member.remove_roles(role)
                 except:
                     print(f"Unable to remove role of UID: {item['Discord UID']}")
-                    pass
-                ws.update_value(f'K{index + 2}', '')
-                print(item['暱稱'], item['Discord UID'], item['下次帳單日期'], item['是否已給予身分組'], '移除')
+                else:
+                    ws.update_value(f'K{index + 2}', '')
+                    print(item['暱稱'], item['Discord UID'], item['下次帳單日期'], item['是否已給予身分組'], '移除')
 
             elif item['到期多久'] != '' and (int(item['到期多久']) == 2 and item['是否已給予身分組'] == 'Y'):
                 if time_diff(last_message.created_at, now).total_seconds() > 3600 and datetime.now().hour == 12:
