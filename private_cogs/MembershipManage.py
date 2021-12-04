@@ -51,7 +51,11 @@ class MembershipManage(commands.Cog):
 
             if item['到期多久'] == '' and item['是否已給予身分組'] != 'Y':
                 member = guild.get_member(item['Discord UID'])
-                await member.add_roles(role)
+                try:
+                    await member.add_roles(role)
+                except:
+                    print(f"Unable to add role of UID: {item['Discord UID']}")
+                    pass
                 await member.send(
                     '''[CN] 您的會員證明已被驗證，現在可以使用以下會限頻道了！\n'''
                     '''[EN] Your proof have been verified and you can now access to the following membership channel.\n'''
@@ -64,7 +68,11 @@ class MembershipManage(commands.Cog):
 
             elif item['到期多久'] != '' and (int(item['到期多久']) > 3 and item['是否已給予身分組'] == 'Y'):
                 member = guild.get_member(item['Discord UID'])
-                await member.remove_roles(role)
+                try:
+                    await member.remove_roles(role)
+                except:
+                    print(f"Unable to remove role of UID: {item['Discord UID']}")
+                    pass
                 ws.update_value(f'K{index + 2}', '')
                 print(item['暱稱'], item['Discord UID'], item['下次帳單日期'], item['是否已給予身分組'], '移除')
 
