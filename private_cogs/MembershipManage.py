@@ -49,7 +49,7 @@ class MembershipManage(commands.Cog):
             if item['Discord UID'] == '':
                 continue
 
-            if ws.cell('M2').value == now.strftime('%Y-%m-%d %H:%M:%S'):
+            if ws.cell('M2').value == now.replace(tzinfo=pytz.timezone('Asia/Taipei')).strftime('%Y-%m-%d %H:%M:%S'):
                 pass
 
             elif item['到期多久'] == '' and item['是否已給予身分組'] != 'Y':
@@ -89,7 +89,7 @@ class MembershipManage(commands.Cog):
             notif_str = '\n'.join(member_notif)
             await channel.send(f'以下蝦蝦們請於 <#846613455351185429> 重新提交會員證明\n{notif_str}')
         
-        ws.update_value(f'M2', now.strftime('%Y-%m-%d %H:%M:%S'))
+        ws.update_value(f'M2', now.replace(tzinfo=pytz.timezone('Asia/Taipei')).strftime('%Y-%m-%d %H:%M:%S'))
         del sh, ws, val
 
     @tasks.loop(minutes=5.0)
