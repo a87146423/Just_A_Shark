@@ -49,7 +49,10 @@ class MembershipManage(commands.Cog):
             if item['Discord UID'] == '':
                 continue
 
-            if item['到期多久'] == '' and item['是否已給予身分組'] != 'Y':
+            if item['BOT LAST CHECK'] == now.strftime('%Y-%m-%d %H:%M:%S'):
+                pass
+
+            elif item['到期多久'] == '' and item['是否已給予身分組'] != 'Y':
                 member = guild.get_member(item['Discord UID'])
                 try:
                     await member.add_roles(role)
@@ -65,6 +68,8 @@ class MembershipManage(commands.Cog):
                         )
                     ws.update_value(f'K{index + 2}', 'Y')
                     print(item['暱稱'], item['Discord UID'], item['下次帳單日期'], item['是否已給予身分組'], '新增')
+                finally:
+                    ws.update_value(f'M{index + 2}', now.strftime('%Y-%m-%d %H:%M:%S'))
 
             elif item['到期多久'] != '' and (int(item['到期多久']) > 3 and item['是否已給予身分組'] == 'Y'):
                 member = guild.get_member(item['Discord UID'])
@@ -75,11 +80,14 @@ class MembershipManage(commands.Cog):
                 else:
                     ws.update_value(f'K{index + 2}', '')
                     print(item['暱稱'], item['Discord UID'], item['下次帳單日期'], item['是否已給予身分組'], '移除')
+                finally:
+                    ws.update_value(f'M{index + 2}', now.strftime('%Y-%m-%d %H:%M:%S'))
 
             elif item['到期多久'] != '' and (int(item['到期多久']) == 2 and item['是否已給予身分組'] == 'Y'):
                 if time_diff(last_message.created_at, now).total_seconds() > 3600 and datetime.now().hour == 12:
                     member_notif.append(item['方便標記用'])
                     print(item['暱稱'], item['Discord UID'], item['下次帳單日期'], item['是否已給予身分組'], '通知')
+                    ws.update_value(f'M{index + 2}', now.strftime('%Y-%m-%d %H:%M:%S'))
         
         if member_notif:
             channel = self.bot.get_channel(847459494253690930)
