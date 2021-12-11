@@ -41,7 +41,7 @@ class MembershipManage(commands.Cog):
 
         last_message = await self.bot.get_channel(847459494253690930).history(limit=1).flatten()
         last_message = last_message[0]
-        now = datetime.now().replace(tzinfo=pytz.timezone('UTC'))
+        now = datetime.utcnow().replace(tzinfo=pytz.timezone('UTC'))
         now_nst = now.astimezone(pytz.timezone('Asia/Taipei'))
         print(last_message.created_at, now)
         member_notif = []
