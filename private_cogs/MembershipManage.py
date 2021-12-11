@@ -49,10 +49,10 @@ class MembershipManage(commands.Cog):
             if item['Discord UID'] == '':
                 continue
 
-            if item['BOT LAST CHECK'] != now.strftime('%Y-%m-%d %H:%M:%S'):
-                ws.update_value(f'M2', now.strftime('%Y-%m-%d %H:%M:%S'))
+            if ws.cell('M2') == now.strftime('%Y-%m-%d %H:%M:%S'):
+                pass
 
-            if item['到期多久'] == '' and item['是否已給予身分組'] != 'Y':
+            elif item['到期多久'] == '' and item['是否已給予身分組'] != 'Y':
                 member = guild.get_member(item['Discord UID'])
                 try:
                     await member.add_roles(role)
@@ -83,12 +83,13 @@ class MembershipManage(commands.Cog):
                 if time_diff(last_message.created_at, now).total_seconds() > 3600 and datetime.now().hour == 12:
                     member_notif.append(item['方便標記用'])
                     print(item['暱稱'], item['Discord UID'], item['下次帳單日期'], item['是否已給予身分組'], '通知')
-        
+
         if member_notif:
             channel = self.bot.get_channel(847459494253690930)
             notif_str = '\n'.join(member_notif)
             await channel.send(f'以下蝦蝦們請於 <#846613455351185429> 重新提交會員證明\n{notif_str}')
         
+        ws.update_value(f'M2', now.strftime('%Y-%m-%d %H:%M:%S'))
         del sh, ws, val
 
     @tasks.loop(minutes=5.0)
