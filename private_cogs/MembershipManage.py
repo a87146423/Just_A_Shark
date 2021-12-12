@@ -50,10 +50,7 @@ class MembershipManage(commands.Cog):
             if item['Discord UID'] == '':
                 continue
 
-            if ws.cell('M2').value == now_nst.strftime('%Y-%m-%d %H:%M:%S'):
-                pass
-
-            elif item['到期多久'] == '' and item['是否已給予身分組'] != 'Y':
+            if item['到期多久'] == '' and item['是否已給予身分組'] != 'Y':
                 member = guild.get_member(item['Discord UID'])
                 try:
                     await member.add_roles(role)
