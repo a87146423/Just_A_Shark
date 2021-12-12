@@ -90,9 +90,8 @@ class MembershipManage(commands.Cog):
             notif_str = '\n'.join(member_notif)
             await channel.send(f'以下蝦蝦們請於 <#846613455351185429> 重新提交會員證明\n{notif_str}')
 
-        if ws.cell('M2').value != now_nst.strftime('%Y-%m-%d %H:%M:%S'):
-            ws.update_value(f'M2', now_nst.strftime('%Y-%m-%d %H:%M:%S'))
-            del sh, ws, val, now, now_nst, member_notif
+        ws.update_value('M2', now_nst.strftime('%Y-%m-%d %H:%M:%S'))
+        del sh, ws, val, now, now_nst, member_notif
 
     @tasks.loop(minutes=5.0)
     async def taskloop(self):
