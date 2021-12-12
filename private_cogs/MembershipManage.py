@@ -85,13 +85,14 @@ class MembershipManage(commands.Cog):
                     member_notif.append(item['方便標記用'])
                     print(item['暱稱'], item['Discord UID'], item['下次帳單日期'], item['是否已給予身分組'], '通知')
 
-        ws.update_value(f'M2', now_nst.strftime('%Y-%m-%d %H:%M:%S'))
-        del sh, ws, val, now, now_nst
-
         if member_notif:
             channel = self.bot.get_channel(847459494253690930)
             notif_str = '\n'.join(member_notif)
             await channel.send(f'以下蝦蝦們請於 <#846613455351185429> 重新提交會員證明\n{notif_str}')
+
+        if ws.cell('M2').value != now_nst.strftime('%Y-%m-%d %H:%M:%S'):
+            ws.update_value(f'M2', now_nst.strftime('%Y-%m-%d %H:%M:%S'))
+            del sh, ws, val, now, now_nst, member_notif
 
     @tasks.loop(minutes=5.0)
     async def taskloop(self):
