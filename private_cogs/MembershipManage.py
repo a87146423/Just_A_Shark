@@ -68,9 +68,9 @@ class MembershipManage(commands.Cog):
                             '''<#851664375319494676>'''
                             )
                     except:
-                        print(item['暱稱'], item['Discord UID'], item['下次帳單日期'], item['是否已給予身分組'], '新增 & DM')
-                    else:
                         print(item['暱稱'], item['Discord UID'], item['下次帳單日期'], item['是否已給予身分組'], '新增')
+                    else:
+                        print(item['暱稱'], item['Discord UID'], item['下次帳單日期'], item['是否已給予身分組'], '新增 & DM')
                     finally:
                         ws.update_value(f'K{index + 2}', 'Y')
                     
