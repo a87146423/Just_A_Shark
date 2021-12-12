@@ -86,7 +86,7 @@ class MembershipManage(commands.Cog):
                     print(item['暱稱'], item['Discord UID'], item['下次帳單日期'], item['是否已給予身分組'], '通知')
 
         ws.update_value(f'M2', now_nst.strftime('%Y-%m-%d %H:%M:%S'))
-        del sh, ws, val
+        del sh, ws, val, now, now_nst
 
         if member_notif:
             channel = self.bot.get_channel(847459494253690930)
