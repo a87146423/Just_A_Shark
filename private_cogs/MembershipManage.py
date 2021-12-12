@@ -14,6 +14,8 @@ class MembershipManage(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
         self.taskloop.start()
+    
+    last_message = None
 
     async def _check_members(self):
         Atlantis_ID = int(os.environ.get("Atlantis_ID"))
@@ -57,15 +59,21 @@ class MembershipManage(commands.Cog):
                 except:
                     print(f"Unable to add role of UID: {item['Discord UID']}")
                 else:
-                    await member.send(
-                        '''[CN] 您的會員證明已被驗證，現在可以使用以下會限頻道了！\n'''
-                        '''[EN] Your proof have been verified and you can now access to the following membership channel.\n'''
-                        '''------------------------------------------------------\n'''
-                        '''<#803473713369710653>\n'''
-                        '''<#851664375319494676>'''
-                        )
-                    ws.update_value(f'K{index + 2}', 'Y')
-                    print(item['暱稱'], item['Discord UID'], item['下次帳單日期'], item['是否已給予身分組'], '新增')
+                    try:
+                        await member.send(
+                            '''[CN] 您的會員證明已被驗證，現在可以使用以下會限頻道了！\n'''
+                            '''[EN] Your proof have been verified and you can now access to the following membership channel.\n'''
+                            '''------------------------------------------------------\n'''
+                            '''<#803473713369710653>\n'''
+                            '''<#851664375319494676>'''
+                            )
+                    except:
+                        print(item['暱稱'], item['Discord UID'], item['下次帳單日期'], item['是否已給予身分組'], '新增 & DM')
+                    else:
+                        print(item['暱稱'], item['Discord UID'], item['下次帳單日期'], item['是否已給予身分組'], '新增')
+                    finally:
+                        ws.update_value(f'K{index + 2}', 'Y')
+                    
 
             elif item['到期多久'] != '' and (int(item['到期多久']) > 3 and item['是否已給予身分組'] == 'Y'):
                 member = guild.get_member(item['Discord UID'])
