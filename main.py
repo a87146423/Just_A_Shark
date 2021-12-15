@@ -8,7 +8,7 @@ def get_prifex(bot, msg):
         return ['a!', 'A!']
 
 intents = disnake.Intents().all()
-bot = commands.Bot(command_prefix=get_prifex, case_insensitive=True, intents=intents)
+bot = commands.Bot(command_prefix=get_prifex, case_insensitive=True, intents=intents, sync_commands_debug=True, sync_permissions=True)
 
 @bot.event
 async def on_ready():
