@@ -27,14 +27,12 @@ class Bot(commands.Bot):
                 print(e)
             else:
                 print(f"{folder}.{filename[:-3]} loaded.")
+    
+    async def on_ready(self):
+        await bot.change_presence(activity=disnake.Activity(type=disnake.ActivityType.playing, name="蝦蝦✅"))
+        print(f"Logged in as {bot.user.name} - {bot.user.id} / Disnake Version: {disnake.__version__}")
 
 bot = Bot()
 bot.load_all_extensions('private_cogs')
 bot.load_all_extensions('cogs')
 bot.run(os.environ.get("DC_TOKEN"))
-
-@bot.event
-async def on_ready():
-    await bot.change_presence(activity=disnake.Activity(type=disnake.ActivityType.playing, name="蝦蝦✅"))
-    print(f"Logged in as: {bot.user.name} - {bot.user.id} / Version: {disnake.__version__}")
-
