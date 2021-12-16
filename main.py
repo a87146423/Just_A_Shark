@@ -1,37 +1,40 @@
+import traceback
 import os
-import disnake
 
+import disnake
 from disnake.ext import commands
 
-def get_prifex(bot, msg):
-    if msg.author != bot.user:
-        return ['a!', 'A!']
+def fancy_traceback(exc: Exception) -> str:
+    """May not fit the message content limit"""
+    text = "".join(traceback.format_exception(type(exc), exc, exc.__traceback__))
+    return f"```py\n{text[-4086:]}\n```"
 
-intents = disnake.Intents().all()
-bot = commands.Bot(command_prefix=get_prifex, case_insensitive=True, intents=intents, sync_commands_debug=True, sync_permissions=True)
+class Bot(commands.Bot):
+    def __init__(self):
+        super().__init__(
+            command_prefix='a!',
+            help_command=None,
+            intents=disnake.Intents().all(),
+            sync_commands_debug=True,
+            sync_permissions=True
+        )
+
+    def load_all_extensions(self, folder: str) -> None:
+        for filename in os.listdir(folder):
+            try:
+                self.load_extension(f"{folder}.{filename[:-3]}")
+            except Exception as e:
+                print(e)
+            else:
+                print(f"{folder}.{filename[:-3]} loaded.")
+
+bot = Bot()
+bot.load_all_extensions('private_cogs')
+bot.load_all_extensions('cogs')
+bot.run(os.environ.get("DC_TOKEN"))
 
 @bot.event
 async def on_ready():
     await bot.change_presence(activity=disnake.Activity(type=disnake.ActivityType.playing, name="蝦蝦✅"))
     print(f"Logged in as: {bot.user.name} - {bot.user.id} / Version: {disnake.__version__}")
 
-
-if __name__ == "__main__":
-    for Filename in os.listdir('private_cogs'):
-        try:
-            bot.load_extension(f"{'private_cogs'}.{Filename[:-3]}")
-        except Exception as e:
-            print(e)
-        else:
-            print(f"{'private_cogs'}.{Filename[:-3]} is loaded.")
-
-    for Filename in os.listdir('cogs'):
-        try:
-            bot.load_extension(f"{'cogs'}.{Filename[:-3]}")
-        except Exception as e:
-            print(e)
-        else:
-            print(f"{'cogs'}.{Filename[:-3]} is loaded.")
-
-    TOKEN = os.environ.get("DC_TOKEN")
-    bot.run(TOKEN)
