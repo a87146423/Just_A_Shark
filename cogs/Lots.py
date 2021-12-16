@@ -24,7 +24,7 @@ class DrawLots(commands.Cog):
         n = random.randint(0, 99)
         result = LOTS[n]
 
-        now = datetime.utcnow().replace(pytz.timezone('UTC'))
+        now = datetime.utcnow().replace(tzinfo=pytz.timezone('UTC'))
         now_nst = now.astimezone(pytz.timezone('Asia/Taipei'))
 
         date = f"{now_nst.year} 年 {now_nst.month} 月 {now_nst.day} 日"
