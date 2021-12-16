@@ -28,9 +28,15 @@ class Bot(commands.Bot):
             else:
                 print(f"{folder}.{filename[:-3]} loaded.")
     
-    async def on_ready(self):
+    async def on_ready(self) -> None:
         await bot.change_presence(activity=disnake.Activity(type=disnake.ActivityType.playing, name="蝦蝦✅"))
         print(f"Logged in as {bot.user.name} - {bot.user.id} / Disnake Version: {disnake.__version__}")
+    
+    async def on_error(self, err) -> None:
+        if isinstance(err, disnake.errors.HTTPException):
+            if err.status == 429:
+                await self.bot.close()
+                await self.bot.start(os.environ.get("DC_TOKEN"), reconnect=True)
 
 bot = Bot()
 bot.load_all_extensions('private_cogs')
