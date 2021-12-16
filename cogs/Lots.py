@@ -1,8 +1,10 @@
 import random
+import pytz
+from datetime import datetime
 
-from datetime import datetime, timedelta
 from disnake import Embed
 from disnake.ext import commands
+
 from data import lots
 
 LOTS = lots.LOTS
@@ -12,17 +14,20 @@ class DrawLots(commands.Cog):
         self.bot = bot
 
     @commands.slash_command(name='lots', description='抽籤！每日早上八點重置')
-    async def _draw_lots(self, inter):
-        seed = int((datetime.now() + timedelta(hours=8)).strftime(f'%Y%m%d')) + inter.author.id
-        embed = self.createEmbed(inter, seed)
+    async def _draw_lots(self, inter) -> None:
+        seed = int(datetime.now().strftime(f'%Y%m%d')) + inter.author.id
+        embed = self.embedCreator(inter, seed)
         await inter.response.send_message(content=f'{inter.author.mention}你今天的運勢是...',embed=embed)
 
-    def createEmbed(self, inter, seed):
+    def embedCreator(self, inter, seed: int) -> Embed:
         random.seed(seed)
         n = random.randint(0, 99)
         result = LOTS[n]
 
-        date = (datetime.now() + timedelta(hours=8)).strftime(f'%Y年%m月%d日'.encode('unicode_escape').decode('utf8')).encode('utf-8').decode('unicode_escape')
+        now = datetime.utcnow().replace(pytz.timezone('UTC'))
+        now_nst = now.astimezone(pytz.timezone('Asia/Taipei'))
+
+        date = f"{now_nst.year} 年 {now_nst.month} 月 {now_nst.day} 日"
         desc = "**{}**\n".format(result["poem_line1"])
         desc+= "`{}`\n".format(result["poem_line1_explain"])
         desc+= "**{}**\n".format(result["poem_line2"])
