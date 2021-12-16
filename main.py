@@ -1,4 +1,6 @@
+from time import sleep
 import traceback
+import requests
 import os
 
 import disnake
@@ -35,8 +37,16 @@ class Bot(commands.Bot):
     async def on_error(self, err) -> None:
         if isinstance(err, disnake.errors.HTTPException):
             if err.status == 429:
-                await self.bot.close()
-                await self.bot.start(os.environ.get("DC_TOKEN"), reconnect=True)
+                r = requests.head(url="https://discord.com/api/v1")
+                try:
+                    retry = int(r.headers['Retry-After'])
+                    print(f"Rate limit {retry} seconds left")
+                    sleep(retry)
+                    await self.bot.close()
+                    await self.bot.start(os.environ.get("DC_TOKEN"), reconnect=True)
+                except:
+                    print("No rate limit")
+
 
 bot = Bot()
 bot.load_all_extensions('private_cogs')
