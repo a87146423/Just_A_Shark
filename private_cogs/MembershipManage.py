@@ -87,7 +87,9 @@ class MembershipManage(commands.Cog):
                     print(item['暱稱'], item['Discord UID'], item['下次帳單日期'], item['是否已給予身分組'], '移除')
 
             elif item['到期多久'] != '' and (int(item['到期多久']) == 2 and item['是否已給予身分組'] == 'Y'):
-                if time_diff(self.last_message.created_at, now).total_seconds() > 3600 and datetime.now().hour == 12:
+                if self.last_message is None:
+                    pass
+                elif time_diff(self.last_message.created_at, now).total_seconds() > 3600 and datetime.now().hour == 12:
                     member_notif.append(item['方便標記用'])
                     print(item['暱稱'], item['Discord UID'], item['下次帳單日期'], item['是否已給予身分組'], '通知')
 
