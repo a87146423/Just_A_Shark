@@ -43,7 +43,7 @@ class MembershipManage(commands.Cog):
 
         now = datetime.utcnow().replace(tzinfo=pytz.timezone('UTC'))
         now_nst = now.astimezone(pytz.timezone('Asia/Taipei'))
-        if now_nst.hour == 20:
+        if now_nst.hour == 20 and now_nst.minute <= 15:
             m = await self.bot.get_channel(847459494253690930).history(limit=1).flatten()
             self.last_message = m[0]
             print(self.last_message.created_at, now)
@@ -97,7 +97,6 @@ class MembershipManage(commands.Cog):
             channel = self.bot.get_channel(847459494253690930)
             notif_str = '\n'.join(member_notif)
             await channel.send(f'以下蝦蝦們請於 <#846613455351185429> 重新提交會員證明\n{notif_str}')
-            self.last_message = None
 
         ws.update_value('M2', now_nst.strftime('%Y-%m-%d %H:%M:%S'))
         del sh, ws, val, now, now_nst, member_notif
