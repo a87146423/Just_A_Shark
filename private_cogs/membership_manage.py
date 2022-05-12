@@ -8,7 +8,7 @@ from datetime import datetime
 from disnake.ext import commands, tasks
 from googleapiclient.errors import HttpError
 from google.oauth2 import service_account
-from cores.utils import time_diff
+from cores import utils
 
 class MembershipManage(commands.Cog):
     def __init__(self, bot):
@@ -89,7 +89,7 @@ class MembershipManage(commands.Cog):
             elif item['到期多久'] != '' and (int(item['到期多久']) == 2 and item['是否已給予身分組'] == 'Y'):
                 if self.last_message is None:
                     pass
-                elif time_diff(self.last_message.created_at, now).total_seconds() > 3600 and datetime.now().hour == 12:
+                elif utils.time_diff(self.last_message.created_at, now).total_seconds() > 3600 and datetime.now().hour == 12:
                     member_notif.append(item['方便標記用'])
                     print(item['暱稱'], item['Discord UID'], item['下次帳單日期'], item['是否已給予身分組'], '通知')
 

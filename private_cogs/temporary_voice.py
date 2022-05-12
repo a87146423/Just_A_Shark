@@ -1,5 +1,7 @@
 from random import choice
 
+import os
+
 from disnake.ext import commands, tasks
 from disnake.utils import get
 
