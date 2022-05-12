@@ -1,14 +1,14 @@
 import os
 
 from disnake.ext import commands
-from disnake.Permissions import administrator
+from disnake import Permissions
 
 class Restart(commands.Cog):
     """Slash command for restarting the bot."""
     def __init__(self, bot):
         self.bot = bot
 
-    @commands.slash_command(name='restart', description='Restart this bot.', default_member_permissions=administrator)
+    @commands.slash_command(name='restart', description='Restart this bot.', default_member_permissions=Permissions.administrator)
     async def _restart(self, inter):
         await inter.response.send_message("Bot restarted.")
         token = os.environ.get("DC_TOKEN")
