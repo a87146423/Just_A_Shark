@@ -22,6 +22,8 @@ class TemporaryVoice(commands.Cog):
                 await member.move_to(new_channel)
             else:
                 await member.move_to(channel)
+        elif before.channel.category_id == 973743537994752000 and before.channel.id != 973743539089457223 and not before.channel.members:
+            await before.channel.delete()
 
     async def tvc_helper(self) -> None:
         """
@@ -31,8 +33,7 @@ class TemporaryVoice(commands.Cog):
         guild = self.bot.get_guild(self.Atlantis_ID)
         for channel in self.bot.get_guild(self.Atlantis_ID).voice_channels:
             if channel.category_id == 973743537994752000 and channel.id != 973743539089457223:
-                # print(channel.members)
-                if channel.members is None:
+                if not channel.members:
                     await channel.delete()
                 else:
                     members_list = []
