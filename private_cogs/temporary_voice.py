@@ -4,6 +4,7 @@ from disnake.ext import commands, tasks
 from disnake.utils import get
 
 class TemporaryVoice(commands.Cog):
+    Atlantis_ID = int(os.environ.get("Atlantis_ID"))
     """Temporary Voice Channel -> tvc"""
     def __init__(self, bot):
         self.bot = bot
@@ -27,8 +28,8 @@ class TemporaryVoice(commands.Cog):
             Delete empty tvc.
             Transfer tvc owner.
         """
-        guild = self.bot.get_guild(self.bot.Atlantis_ID)
-        for channel in self.bot.get_guild(self.bot.Atlantis_ID).voice_channels:
+        guild = self.bot.get_guild(self.Atlantis_ID)
+        for channel in self.bot.get_guild(self.Atlantis_ID).voice_channels:
             if channel.category_id == 973743537994752000 and channel.id != 973743539089457223:
                 if channel.members is None:
                     await channel.delete()
@@ -43,7 +44,7 @@ class TemporaryVoice(commands.Cog):
                         await channel.edit(name=f'{new_owner.name} 的頻道')
     
     async def creat_vc_cleaner(self) -> None:
-        guild = self.bot.get_guild(self.bot.Atlantis_ID)
+        guild = self.bot.get_guild(self.Atlantis_ID)
         channel = get(guild.voice_channels, id=973743539089457223)
         for member in channel.members:
             channel = get(member.guild.voice_channels, name=f'{member.name} 的頻道')
