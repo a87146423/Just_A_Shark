@@ -19,8 +19,7 @@ class Bot(commands.Bot):
             command_prefix='a!',
             help_command=None,
             intents=disnake.Intents().all(),
-            sync_commands_debug=True,
-            sync_permissions=True
+            sync_commands_debug=True
         )
 
     def load_all_extensions(self, folder: str) -> None:
