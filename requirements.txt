@@ -1,3 +1,4 @@
 disnake
 pygsheets
 pytz
+psycopg2
