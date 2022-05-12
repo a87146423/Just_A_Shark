@@ -2,7 +2,7 @@ from random import choice
 
 import os
 
-from dinake import Permissions
+from disnake import Permissions
 from disnake.ext import commands, tasks
 from disnake.utils import get
 
@@ -36,7 +36,7 @@ class TemporaryVoice(commands.Cog):
                 await member.move_to(new_channel)
             else:
                 await member.move_to(channel)
-        elif before.channel.category_id == 973743537994752000 and before.channel.id != 973743539089457223 and not before.channel.members:
+        elif before.channel and before.channel.category_id == 973743537994752000 and before.channel.id != 973743539089457223 and not before.channel.members:
             await before.channel.delete()
 
     async def tvc_helper(self) -> None:
