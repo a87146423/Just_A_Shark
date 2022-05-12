@@ -9,7 +9,6 @@ class Restart(commands.Cog):
         self.bot = bot
 
     @commands.slash_command(name='restart', description='Restart this bot.', default_member_permissions=Permissions.administrator)
-    @commands.has_permissions(administrator=True)
     async def _restart(self, inter):
         await inter.response.send_message("Bot restarted.")
         token = os.environ.get("DC_TOKEN")
