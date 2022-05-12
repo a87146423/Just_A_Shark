@@ -33,6 +33,7 @@ class TemporaryVoice(commands.Cog):
         guild = self.bot.get_guild(self.Atlantis_ID)
         for channel in self.bot.get_guild(self.Atlantis_ID).voice_channels:
             if channel.category_id == 973743537994752000 and channel.id != 973743539089457223:
+                print(channel.members)
                 if channel.members is None:
                     await channel.delete()
                 elif channel.members is not None:
