@@ -36,7 +36,7 @@ class TemporaryVoice(commands.Cog):
                 print(channel.members)
                 if channel.members is None:
                     await channel.delete()
-                elif channel.members is not None:
+                else:
                     members_list = []
                     owner = get(guild.members, name=channel.name[:-4])
                     for member in channel.members:

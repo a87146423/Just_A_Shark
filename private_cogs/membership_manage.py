@@ -9,10 +9,11 @@ from disnake.ext import commands, tasks
 from googleapiclient.errors import HttpError
 from google.oauth2 import service_account
 
-import sys
-sys.path.append("..")
+#from ..cores.utils import time_diff
 
-from ..cores.utils import time_diff
+from datetime import datetime, time as datetime_time, timedelta
+
+        
 
 class MembershipManage(commands.Cog):
     def __init__(self, bot):
@@ -93,7 +94,7 @@ class MembershipManage(commands.Cog):
             elif item['到期多久'] != '' and (int(item['到期多久']) == 2 and item['是否已給予身分組'] == 'Y'):
                 if self.last_message is None:
                     pass
-                elif time_diff(self.last_message.created_at, now).total_seconds() > 3600 and datetime.now().hour == 12:
+                elif self.time_diff(self.last_message.created_at, now).total_seconds() > 3600 and datetime.now().hour == 12:
                     member_notif.append(item['方便標記用'])
                     print(item['暱稱'], item['Discord UID'], item['下次帳單日期'], item['是否已給予身分組'], '通知')
 
@@ -104,6 +105,17 @@ class MembershipManage(commands.Cog):
 
         ws.update_value('M2', now_nst.strftime('%Y-%m-%d %H:%M:%S'))
         del sh, ws, val, now, now_nst, member_notif
+
+    def time_diff(self, start, end) -> timedelta:
+        if isinstance(start, datetime_time):
+            assert isinstance(end, datetime_time)
+            start, end = [datetime.combine(datetime.min, t) for t in [start, end]]
+        if start <= end:
+            return end - start
+        else:
+            end += timedelta(1)
+            assert end > start
+            return end - start
 
     @tasks.loop(minutes=5.0)
     async def taskloop(self) -> None:
