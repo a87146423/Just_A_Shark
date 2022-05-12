@@ -22,7 +22,7 @@ class TemporaryVoice(commands.Cog):
                 await member.move_to(new_channel)
             else:
                 await member.move_to(channel)
-        elif before.channel.name.endswith(' 的頻道') and before.channel.members is None:
+        elif before.channel.category_id == 973743537994752000 and channel.id != 973743539089457223 and before.channel.members is None:
             await before.channel.delete()
 
     async def tvc_helper(self) -> None:
