@@ -21,10 +21,10 @@ class TemporaryVoice(commands.Cog):
         else:
             if channel.permissions_for(inter.guild.default_role).connect:
                 await channel.set_permissions(inter.guild.default_role, connect=False)
-                await inter.response.send_message(f"上鎖 {inter.author.name} 的頻道.", ephemeral=True)
+                await inter.response.send_message(f"上鎖 {inter.author.name} 的頻道.")
             else:
                 await channel.set_permissions(inter.guild.default_role, connect=True)
-                await inter.response.send_message(f"解鎖 {inter.author.name} 的頻道.", ephemeral=True)
+                await inter.response.send_message(f"解鎖 {inter.author.name} 的頻道.")
 
     @commands.Cog.listener('on_voice_state_update')
     async def _create_tvc(self, member, before, after):
