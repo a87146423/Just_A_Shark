@@ -1,6 +1,7 @@
 from disnake.ext import commands
 
 class Misc(commands.Cog):
+    """Misc slash commands"""
     def __init__(self, bot):
         self.bot = bot
 

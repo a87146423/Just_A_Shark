@@ -1,14 +1,14 @@
 import os
 import json
-import pygsheets
-import pytz
 import time
+import pytz
+import pygsheets
 
 from datetime import datetime
 from disnake.ext import commands, tasks
 from googleapiclient.errors import HttpError
 from google.oauth2 import service_account
-from cores.Utils import time_diff
+from cores.utils import time_diff
 
 class MembershipManage(commands.Cog):
     def __init__(self, bot):
@@ -57,7 +57,7 @@ class MembershipManage(commands.Cog):
                 member = guild.get_member(item['Discord UID'])
                 try:
                     await member.add_roles(role)
-                except:
+                except: # pylint: disable=bare-except
                     print(f"Unable to add role of UID: {item['Discord UID']}")
                 else:
                     try:
@@ -68,7 +68,7 @@ class MembershipManage(commands.Cog):
                             '''<#803473713369710653>\n'''
                             '''<#851664375319494676>'''
                             )
-                    except:
+                    except: # pylint: disable=bare-except
                         print(item['暱稱'], item['Discord UID'], item['下次帳單日期'], item['是否已給予身分組'], '新增')
                     else:
                         print(item['暱稱'], item['Discord UID'], item['下次帳單日期'], item['是否已給予身分組'], '新增 & DM')
@@ -80,7 +80,7 @@ class MembershipManage(commands.Cog):
                 member = guild.get_member(item['Discord UID'])
                 try:
                     await member.remove_roles(role)
-                except:
+                except: # pylint: disable=bare-except
                     print(f"Unable to remove role of UID: {item['Discord UID']}")
                 else:
                     ws.update_value(f'K{index + 2}', '')
@@ -102,11 +102,11 @@ class MembershipManage(commands.Cog):
         del sh, ws, val, now, now_nst, member_notif
 
     @tasks.loop(minutes=5.0)
-    async def taskloop(self):
+    async def taskloop(self) -> None:
         await self._check_members()
 
     @taskloop.before_loop
-    async def before_taskloop(self):
+    async def before_taskloop(self) -> None:
         await self.bot.wait_until_ready()
 
 def setup(bot):

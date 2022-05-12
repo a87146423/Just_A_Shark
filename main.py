@@ -6,6 +6,8 @@ import os
 import disnake
 from disnake.ext import commands
 
+from cores import database_api
+
 def fancy_traceback(exc: Exception) -> str:
     """May not fit the message content limit"""
     text = "".join(traceback.format_exception(type(exc), exc, exc.__traceback__))
@@ -25,15 +27,16 @@ class Bot(commands.Bot):
         for filename in os.listdir(folder):
             try:
                 self.load_extension(f"{folder}.{filename[:-3]}")
-            except Exception as e:
-                print(e)
+            except Exception as err:
+                print(err)
             else:
                 print(f"{folder}.{filename[:-3]} loaded.")
-    
+
     async def on_ready(self) -> None:
+        database_api.init_database()
         await bot.change_presence(activity=disnake.Activity(type=disnake.ActivityType.playing, name="蝦蝦✅"))
         print(f"Logged in as {bot.user.name} - {bot.user.id} / Disnake Version: {disnake.__version__}")
-    
+
     async def on_error(self, err) -> None:
         if isinstance(err, disnake.errors.HTTPException):
             if err.status == 429:
