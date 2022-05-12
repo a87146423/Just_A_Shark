@@ -36,7 +36,7 @@ class Bot(commands.Bot):
         database_api.init_database()
         await bot.change_presence(activity=disnake.Activity(type=disnake.ActivityType.playing, name="蝦蝦✅"))
         print(f"Logged in as {bot.user.name} - {bot.user.id} / Disnake Version: {disnake.__version__}")
-        bot.load_all_extensions('cogs_private')
+        bot.load_all_extensions('private')
         bot.load_all_extensions('cogs')
 
     async def on_error(self, err) -> None:
