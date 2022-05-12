@@ -8,7 +8,7 @@ from datetime import datetime
 from disnake.ext import commands, tasks
 from googleapiclient.errors import HttpError
 from google.oauth2 import service_account
-from ..cores.utils import time_diff
+from app.cores.utils import time_diff
 
 class MembershipManage(commands.Cog):
     def __init__(self, bot):
