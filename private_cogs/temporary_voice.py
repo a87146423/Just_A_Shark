@@ -13,7 +13,7 @@ class TemporaryVoice(commands.Cog):
         self.bot = bot
         self.taskloop.start()
 
-    @commands.slash_command(name='tvclock', description='Lock current temporary voice channel.', default_member_permissions=Permissions(connect=True))
+    @commands.slash_command(name='tvclock', description='Lock current temporary voice channel.')
     async def _lock(self, inter):
         channel = get(inter.guild.voice_channels, name=f'{inter.author.name} 的頻道')
         if channel is None:
