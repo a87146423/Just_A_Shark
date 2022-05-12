@@ -1,6 +1,7 @@
 import os
 
 from disnake.ext import commands
+from disnake.Permissions import administrator
 
 class Restart(commands.Cog):
     """Slash command for restarting the bot."""
