@@ -2,6 +2,7 @@ from random import choice
 
 import os
 
+from dinake import Permissions
 from disnake.ext import commands, tasks
 from disnake.utils import get
 
@@ -11,6 +12,19 @@ class TemporaryVoice(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
         self.taskloop.start()
+
+    @commands.slash_command(name='tvclock', description='Lock current temporary voice channel.', default_member_permissions=Permissions(connect=True))
+    async def _lock(self, inter):
+        channel = get(inter.guild.voice_channels, name=f'{inter.author.name} 的頻道')
+        if channel is None:
+            await inter.response.send_message("你必須在自己的動態語音頻道內.", ephemeral=True)
+        else:
+            if channel.permissions_for(inter.guild.default_role).connect:
+                await channel.set_permissions(inter.guild.default_role, connect=False)
+                await inter.response.send_message(f"上鎖 {inter.author.name} 的頻道.", ephemeral=True)
+            else:
+                await channel.set_permissions(inter.guild.default_role, connect=True)
+                await inter.response.send_message(f"解鎖 {inter.author.name} 的頻道.", ephemeral=True)
 
     @commands.Cog.listener('on_voice_state_update')
     async def _create_tvc(self, member, before, after):
