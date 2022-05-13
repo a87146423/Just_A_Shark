@@ -26,6 +26,17 @@ class TemporaryVoice(commands.Cog):
                 await channel.set_permissions(inter.guild.default_role, connect=True)
                 await inter.response.send_message(f"解鎖 {inter.author.name} 的頻道.")
 
+    @commands.slash_command(name='tvclaim', description='Claim current temporary voice channel.')
+    async def _claim(self, inter):
+        channel = get(inter.guild.voice_channels, name=f'{inter.author.name} 的頻道')
+        if channel is None:
+            await inter.response.send_message("你必須在自己的動態語音頻道內.", ephemeral=True)
+        elif channel.name == f'{inter.author.name} 的頻道':
+            await inter.response.send_message("這個頻道已經屬於你.", ephemeral=True)
+        elif channel.permissions_for(inter.guild.default_role).connect and channel.category_id == 973743537994752000 and channel.id != 973743539089457223:
+            await channel.edit(name=f'{inter.author.name} 的頻道')
+            await inter.response.send_message(f"{inter.author.name} 已宣稱此頻道.")
+
     @commands.Cog.listener('on_voice_state_update')
     async def _create_tvc(self, member, before, after):
         if after.channel is not None and after.channel.id == 973743539089457223:
