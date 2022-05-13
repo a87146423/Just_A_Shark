@@ -33,7 +33,7 @@ class TemporaryVoice(commands.Cog):
             await inter.response.send_message("這個頻道已經屬於你.", ephemeral=True)
         elif channel.category_id == 973743537994752000 and channel.id != 973743539089457223:
             await channel.edit(name=f'{inter.author.name} 的頻道')
-            await inter.response.send_message(f"{inter.author.mention} 已宣稱此頻道.")
+            await inter.response.send_message(f"<@{inter.author.id}> 已宣稱此頻道.")
         else:
             await inter.response.send_message("你必須在動態語音頻道內.", ephemeral=True)
 
